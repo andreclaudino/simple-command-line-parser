@@ -57,7 +57,7 @@ Then, import in your project `build.sbt` file
 
 ```scala
 libraryDependencies ++= Seq(
-  "com.b2wdigital.iafront" %% "simple-command-line-parser" % "0.1-SNAPSHOT"
+  "com.b2wdigital.iafront" %% "simple-command-line-parser" % "1.1-SNAPSHOT"
 )
 ```
 
