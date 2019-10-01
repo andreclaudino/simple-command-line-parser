@@ -47,7 +47,13 @@ object Application extends App {
 
 ## Instalation
 
-In sbt
+If you are build it, you should publish locally before use in any project. In `simple-command-line-parser` folder run:
+
+```bash
+sbt publishLocal
+```
+
+Then, import in your project `build.sbt` file
 
 ```scala
 libraryDependencies ++= Seq(
