@@ -1,9 +1,22 @@
 name := "simple-command-line-parser"
 organization := "com.b2wdigital.iafront"
-version := "1.1-SNAPSHOT"
+version := "1.1"
 
 scalaVersion := "2.11.12"
 crossScalaVersions := Seq("2.11.12", "2.12.9")
+
+val nexusB2w = sys.env.getOrElse("DEPLOY_REPOSITORY", "")
+
+val username = sys.env.getOrElse("DEPLOY_USER", "")
+val password = sys.env.getOrElse("DEPLOY_PASSWORD", "")
+
+publishConfiguration := publishConfiguration.value.withOverwrite(true)
+publishLocalConfiguration := publishLocalConfiguration.value.withOverwrite(true)
+credentials += Credentials("Sonatype Nexus Repository Manager", nexusB2w, username, password)
+
+publishTo := Some("snapshots" at "http://" + nexusB2w + "/repository/maven-private/")
+
+publishMavenStyle := true
 
 libraryDependencies ++=Seq(
   "com.monovore"     %% "decline"       % "0.5.0",
