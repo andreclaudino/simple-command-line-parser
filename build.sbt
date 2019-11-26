@@ -3,7 +3,7 @@ organization := "com.b2wdigital.iafront"
 version := "1.1"
 
 scalaVersion := "2.11.12"
-crossScalaVersions := Seq("2.11.12", "2.12.9")
+crossScalaVersions := Seq("2.11.12", "2.12.9","2.13.1")
 
 val nexusB2w = sys.env.getOrElse("DEPLOY_REPOSITORY", "")
 
@@ -19,9 +19,6 @@ publishTo := Some("snapshots" at "http://" + nexusB2w + "/repository/maven-priva
 publishMavenStyle := true
 
 libraryDependencies ++=Seq(
-  "com.monovore"     %% "decline"       % "0.5.0",
-  "org.clapper" %% "argot" % "1.0.3",
-  /// Testes
   "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 )
 
