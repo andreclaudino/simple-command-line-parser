@@ -1,6 +1,6 @@
 name := "simple-command-line-parser"
 organization := "com.b2wdigital.iafront"
-version := "1.1"
+version := "2.0-SNAPSHOT"
 
 scalaVersion := "2.11.12"
 crossScalaVersions := Seq("2.11.12", "2.12.9","2.13.1")
