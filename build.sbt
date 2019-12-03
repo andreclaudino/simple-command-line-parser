@@ -19,7 +19,7 @@ publishTo := Some("snapshots" at "http://" + nexusB2w + "/repository/maven-priva
 publishMavenStyle := true
 
 libraryDependencies ++=Seq(
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+  "org.scalatest" %% "scalatest" % "3.1.0" % "test"
 )
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)

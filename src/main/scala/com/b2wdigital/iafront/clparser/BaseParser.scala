@@ -26,8 +26,8 @@ class BaseParser(args:Array[String], name:Option[String])  {
         case Some("-c") | Some("--conf") => parseConf(arguments.tail.head)
         case Some("-s") | Some("--source") => Map("source" -> arguments.tail.head)
         case Some("-o") | Some("--output") => Map("output" -> arguments.tail.head)
-        case Some(value) => parseAutonomous(value, arguments)
-          throw new java.lang.Exception("Burro")
+        case Some(value) => parseAutonomous(value)
+          throw new java.lang.Exception(s"Command Line Error verify parameter $value" )
         case None => parsed
       }
     if (arguments.tail.length > 1) {
@@ -43,7 +43,7 @@ class BaseParser(args:Array[String], name:Option[String])  {
      val confKeyValue:Array[String] = configuration.split("=",2)
      Map[String,String](confKeyValue{0} -> confKeyValue{1})
   }
-   def parseAutonomous(value:String, arguments:Seq[String]): Unit ={
-     println("Greetings user! You have a problem in the command line")
+   def parseAutonomous(value:String): Unit ={
+     println(s"Greetings user! You have a problem in the command line $value")
    }
 }
