@@ -24,7 +24,7 @@ script:
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_5a199264f440_key -iv $encrypted_5a199264f440_iv
-  -in secret-key.asc.enc -out .travis/secret-key.asc -d
+  -in .travis/secret-key.asc.enc -out .travis/secret-key.asc -d
 
 after_success:
   - .travis/publish.sh
