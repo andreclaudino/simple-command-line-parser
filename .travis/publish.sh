@@ -14,9 +14,6 @@
 # of the existing tag. Then a new tag can be created for that commit, e.g., `v1.2.3#2.13.0-M5`.
 # Everything after the `#` in the tag name is ignored.
 
-## cross publish everything when Scala 2.12.x is selected.
-RELEASE_COMBO=true;
-
 verPat="[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9-]+)?"
 tagPat="^v$verPat(#.*)?$"
 
