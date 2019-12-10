@@ -19,10 +19,14 @@ before_install:
     -in .travis/secret-key.asc.enc -out .travis/secret-key.asc -d
 
 script:
-  - sbt "++${TRAVIS_SCALA_VERSION}" assembly
-
-after_success:
   - .travis/publish.sh
+  
+# script:
+#   - sbt +publishSigned
+#   - sbt sonatypeBundleRelease
+
+# after_success:
+#   - .travis/publish.sh
 
 before_cache:
   - find $HOME/.sbt -name "*.lock" | xargs rm
