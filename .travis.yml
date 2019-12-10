@@ -2,24 +2,40 @@ sudo: false
 language: scala
 
 jdk: openjdk8
-scala:
-- 2.11.12
-- 2.12.9
-- 2.13.1
+matrix:
+  include:
+    - scala: 2.11.12
+    - scala: 2.12.9
+    - scala: 2.13.1
+
+env:
+  global:
+    secure: VK8rn7YIMTWxy1jkmOTnHBpeGfpe7efxZ4Qnm3+JluP8CRlCyK5fbrTzhow+ruOcbG77LwmU8wJ3U+QSdluawrD/eIo66+WznuWE2ExgauRaee/PgH5lTg7M3//9f1nRcmAx6ViwluuFZBaPWNLd36YVmOv/e0lMPz9vcbpN5u4IG67LC6cCTI1Ot6sJfMbu2n1MdSvHox9q4yzFuYmzy5QXobuO6niSdM3GvBrG13OEt/pFVtu4HScj+E8CzBRSl8QrDYtO8LVBPlnh4JWmJDrUWbp8LfLTk0sd6BYVCt7FdGupS9TpzPdpkFzHvQISSgZ5TQjG9bIPT6/QLOZ9QAjt+NpVxwDtF7obOXQJFrtLTwH8+3V0X4bNZZtQv3FVDQ4YI7TKjd7QGbSbhb2y1N5nFwI2NHxBdLaexrW3i4OsQGO+mQESdIPYoTbMQ+yqYHqCOPJcoSF2EkysPSYWOPlkoRwOCxJ1strq0he21DQ3Uvsr3vNPA3GZUh0a9VM+6kKFY9b6lOU3qu7Y24YbEekRktDAjixaWulEQVlMKva6BgAoiGAcpoNriuFYkXewR2voXESq8U+8/4MqTipM0j9Ug01DXDb0HybyRKICLd86eKPrUfaIVDwBrN+DtjUQ4fJq1DyR9DtindKiJGsmByl2rxx8aiTaHZEkrSBiKEs=
 
 script:
 - sbt ++$TRAVIS_SCALA_VERSION publishSigned
 - sbt ++$TRAVIS_SCALA_VERSION sonatypeBundleRelease
 
+before_script:
+  - gpg --import test-key.gpg
+
+script:
+  - sbt "++${TRAVIS_SCALA_VERSION}" test scripted
+
 before_install:
 - openssl aes-256-cbc -K $encrypted_5a199264f440_key -iv $encrypted_5a199264f440_iv
-  -in secret-key.asc.enc -out secret-key.asc -d
-env:
-  global:
-    secure: VK8rn7YIMTWxy1jkmOTnHBpeGfpe7efxZ4Qnm3+JluP8CRlCyK5fbrTzhow+ruOcbG77LwmU8wJ3U+QSdluawrD/eIo66+WznuWE2ExgauRaee/PgH5lTg7M3//9f1nRcmAx6ViwluuFZBaPWNLd36YVmOv/e0lMPz9vcbpN5u4IG67LC6cCTI1Ot6sJfMbu2n1MdSvHox9q4yzFuYmzy5QXobuO6niSdM3GvBrG13OEt/pFVtu4HScj+E8CzBRSl8QrDYtO8LVBPlnh4JWmJDrUWbp8LfLTk0sd6BYVCt7FdGupS9TpzPdpkFzHvQISSgZ5TQjG9bIPT6/QLOZ9QAjt+NpVxwDtF7obOXQJFrtLTwH8+3V0X4bNZZtQv3FVDQ4YI7TKjd7QGbSbhb2y1N5nFwI2NHxBdLaexrW3i4OsQGO+mQESdIPYoTbMQ+yqYHqCOPJcoSF2EkysPSYWOPlkoRwOCxJ1strq0he21DQ3Uvsr3vNPA3GZUh0a9VM+6kKFY9b6lOU3qu7Y24YbEekRktDAjixaWulEQVlMKva6BgAoiGAcpoNriuFYkXewR2voXESq8U+8/4MqTipM0j9Ug01DXDb0HybyRKICLd86eKPrUfaIVDwBrN+DtjUQ4fJq1DyR9DtindKiJGsmByl2rxx8aiTaHZEkrSBiKEs=
+  -in secret-key.asc.enc -out .travis/secret-key.asc -d
 
-    cache:
-      directories:
-        - $HOME/.cache/coursier
-        - $HOME/.ivy2/cache
-        - $HOME/.sbt
+after_success:
+  - .travis/publish.sh
+
+before_cache:
+  - find $HOME/.sbt -name "*.lock" | xargs rm
+  - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
+  - rm -f $HOME/.ivy2/.sbt.ivy.lock
+
+cache:
+  directories:
+    - $HOME/.cache/coursier
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt
