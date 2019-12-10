@@ -1,6 +1,6 @@
 name := "simple-command-line-parser"
 organization := "com.b2wdigital.iafront"
-version := "1.3"
+version := "2.0-SNAPSHOT"
 
 enablePlugins(GitBranchPrompt)
 git.gitTagToVersionNumber := { tag: String =>
@@ -16,10 +16,7 @@ scalaVersion := "2.11.12"
 
 
 libraryDependencies ++=Seq(
-  "com.monovore"     %% "decline"       % "0.5.0",
-  "org.clapper" %% "argot" % "1.0.3",
-  /// Testes
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+  "org.scalatest" %% "scalatest" % "3.1.0" % "test"
 )
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)

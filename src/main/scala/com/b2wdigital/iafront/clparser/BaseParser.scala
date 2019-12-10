@@ -1,37 +1,49 @@
 package com.b2wdigital.iafront.clparser
 
-import org.clapper.argot.{ArgotParser, SingleValueOption}
+import scala.annotation.tailrec
 
 class BaseParser(args:Array[String], name:Option[String])  {
 
-  val parser = new ArgotParser(name.getOrElse(""))
+  private val parsedValues = parse(args)
 
-  // Source Path
-  private val sourcePathOpt =
-    stringParser("source", "s", "sourcePath", help="Spark input datasource")
-  def sourcePathOption:Option[String] = sourcePathOpt.value
+  def sourcePathOption:Option[String] = parsedValues.get("source")
 
-  // Output Path
-  private val outputPathOpt =
-    stringParser("output", "o", "outputPath", help="Spark output datasource")
-  def outputPathOption:Option[String] = outputPathOpt.value
+  def outputPathOption:Option[String] = parsedValues.get("output")
 
-  private val confsParse =
-    parser.multiOption[Map[String, String]](List("c", "conf"), "configuration", "Add a custom configuration flag as key=value"){
-      (sValue, opt) => {
-        val Seq(k, v) = sValue.split("=").toSeq
-        Map[String, String](k -> v)
+  def confs:Map[String, String] = parsedValues-("source")-("output")
+
+  def apply(key:String):Option[String] = parsedValues.get(key)
+
+  @tailrec
+  private def parse(arguments:Seq[String], parsed:Map[String, String] = Map(),
+            parsedPositional:Seq[Int]=Seq()):Map[String, String] = {
+    if(arguments.isEmpty){
+      Map.empty
+    }
+    else{
+    val newParsed: Map[String, String] =
+      arguments.headOption match {
+        case Some("-c") | Some("--conf") => parseConf(arguments.tail.head)
+        case Some("-s") | Some("--source") => Map("source" -> arguments.tail.head)
+        case Some("-o") | Some("--output") => Map("output" -> arguments.tail.head)
+        case Some(value) => parseAutonomous(value)
+          throw new java.lang.Exception(s"Command Line Error verify parameter $value" )
+        case None => parsed
       }
+    if (arguments.tail.length > 1) {
+      parse(arguments.tail.tail, newParsed ++ parsed)
     }
-  def confs:Map[String,String] = confsParse.value.reduceOption((u, v) => u ++ v).getOrElse(Map[String, String]())
-
-  // Helpers
-  private def stringParser(name:String, short:String = "", valueName:String = "", default:String="", help:String=""):SingleValueOption[String] ={
-    val names = if(short.isEmpty) List(name) else List(short, name)
-    parser.option[String](names, valueName, help){
-      (sValue, _) => if(sValue != null) sValue else default
+    else {
+      parsed ++ newParsed
     }
+     }
   }
 
-  parser.parse(args)
+  def parseConf(configuration:String):Map[String, String] = {
+     val confKeyValue:Array[String] = configuration.split("=",2)
+     Map[String,String](confKeyValue{0} -> confKeyValue{1})
+  }
+   def parseAutonomous(value:String): Unit ={
+     println(s"Greetings user! You have a problem in the command line $value")
+   }
 }
