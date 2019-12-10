@@ -10,11 +10,6 @@ git.gitTagToVersionNumber := { tag: String =>
 
 scalaVersion := "2.11.12"
 
-
-
-
-
-
 libraryDependencies ++=Seq(
   "org.scalatest" %% "scalatest" % "3.1.0" % "test"
 )
@@ -49,4 +44,3 @@ scmInfo := Some(
     "scm:git@github.com:andreclaudino/simple-command-line-parser.git"
   )
 )
-
