@@ -10,6 +10,11 @@ git.gitTagToVersionNumber := { tag: String =>
 
 scalaVersion := "2.11.12"
 
+
+
+
+
+
 libraryDependencies ++=Seq(
   "com.monovore"     %% "decline"       % "0.5.0",
   "org.clapper" %% "argot" % "1.0.3",
