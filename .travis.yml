@@ -12,8 +12,6 @@ env:
 
 script:
 - chmod +x .travis/publish.sh
-- sbt ++$TRAVIS_SCALA_VERSION publishSigned
-- sbt ++$TRAVIS_SCALA_VERSION sonatypeBundleRelease
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_5a199264f440_key -iv $encrypted_5a199264f440_iv

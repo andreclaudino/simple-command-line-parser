@@ -27,17 +27,15 @@ if [[ "$TRAVIS_TAG" =~ $tagPat ]]; then
   tagVer=${tagVer#v}   # Remove `v` at beginning.
   tagVer=${tagVer%%#*} # Remove anything after `#`.
   publishVersion='set every version := "'$tagVer'"'
-
-  if [ "$RELEASE_COMBO" = "true" ]; then
-    java -version
-    echo "Releasing $tagVer with Scala $TRAVIS_SCALA_VERSION"
-
-    ## change this to match your encrypted key
-    openssl aes-256-cbc -K $encrypted_5a199264f440_key -iv $encrypted_5a199264f440_iv -in .travis/secret-key.asc.enc -out .travis/secret-key.asc -d
-    echo $PGP_PASSPHRASE | gpg --passphrase-fd 0 --batch --yes --import .travis/secret-key.asc
-
-    ## change this to match your build
-    sbt "$publishVersion" "clean" "+publishSigned"
-    sbt "$publishVersion" "sonatypeBundleRelease"
-  fi
+  echo "Releasing $tagVer with Scala $TRAVIS_SCALA_VERSION"
 fi
+
+java -version
+
+## change this to match your encrypted key
+openssl aes-256-cbc -K $encrypted_5a199264f440_key -iv $encrypted_5a199264f440_iv -in .travis/secret-key.asc.enc -out .travis/secret-key.asc -d
+echo $PGP_PASSPHRASE | gpg --passphrase-fd 0 --batch --yes --import .travis/secret-key.asc
+
+## change this to match your build
+sbt "$publishVersion" "clean" "+publishSigned"
+sbt "$publishVersion" "sonatypeBundleRelease"
