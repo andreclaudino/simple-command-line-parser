@@ -21,7 +21,6 @@ deploy:
   provider: script
   script: .travis/publish.sh
   on:
-    tags: true
     all_branches: true
 
 
