@@ -19,7 +19,7 @@ before_install:
     -in .travis/secret-key.asc.enc -out .travis/secret-key.asc -d
 
 script:
-  - sbt "++${TRAVIS_SCALA_VERSION}" test scripted
+  - sbt "++${TRAVIS_SCALA_VERSION}" assembly
 
 after_success:
   - .travis/publish.sh
