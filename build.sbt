@@ -1,9 +1,14 @@
 name := "simple-command-line-parser"
 organization := "com.b2wdigital.iafront"
-version := "1.1-SNAPSHOT"
+version := "1.3"
+
+enablePlugins(GitBranchPrompt)
+git.gitTagToVersionNumber := { tag: String =>
+  if(tag matches "v[0-9]+\\..*") Some(tag)
+  else None
+}
 
 scalaVersion := "2.11.12"
-crossScalaVersions := Seq("2.11.12", "2.12.9")
 
 libraryDependencies ++=Seq(
   "com.monovore"     %% "decline"       % "0.5.0",
@@ -21,3 +26,25 @@ artifact in (Compile, assembly) := {
   art.withClassifier(Some("assembly"))
 }
 addArtifact(artifact in (Compile, assembly), assembly)
+
+/// Publishing
+publishConfiguration := publishConfiguration.value.withOverwrite(true)
+publishLocalConfiguration := publishLocalConfiguration.value.withOverwrite(true)
+publishMavenStyle := true
+
+licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
+
+sonatypeProfileName := "com.b2wdigital"
+publishTo := sonatypePublishToBundle.value
+
+import xerial.sbt.Sonatype._
+sonatypeProjectHosting := Some(GitHubHosting("andreclaudino", "simple-command-line-parser", ""))
+
+homepage := Some(url("https://github.com/andreclaudino/simple-command-line-parser"))
+scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/andreclaudino/simple-command-line-parser"),
+    "scm:git@github.com:andreclaudino/simple-command-line-parser.git"
+  )
+)
+
