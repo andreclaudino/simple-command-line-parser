@@ -19,8 +19,9 @@ before_install:
     -in .travis/secret-key.asc.enc -out .travis/secret-key.asc -d
 
 script:
+  - chmod +x .travis/publish.sh
   - .travis/publish.sh
-  
+
 # script:
 #   - sbt +publishSigned
 #   - sbt sonatypeBundleRelease
