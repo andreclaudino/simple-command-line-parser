@@ -16,15 +16,12 @@ script:
 - sbt ++$TRAVIS_SCALA_VERSION publishSigned
 - sbt ++$TRAVIS_SCALA_VERSION sonatypeBundleRelease
 
-before_script:
-  - gpg --import test-key.gpg
+before_install:
+  - openssl aes-256-cbc -K $encrypted_5a199264f440_key -iv $encrypted_5a199264f440_iv
+    -in .travis/secret-key.asc.enc -out .travis/secret-key.asc -d
 
 script:
   - sbt "++${TRAVIS_SCALA_VERSION}" test scripted
-
-before_install:
-- openssl aes-256-cbc -K $encrypted_5a199264f440_key -iv $encrypted_5a199264f440_iv
-  -in .travis/secret-key.asc.enc -out .travis/secret-key.asc -d
 
 after_success:
   - .travis/publish.sh
