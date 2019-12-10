@@ -8,6 +8,8 @@ git.gitTagToVersionNumber := { tag: String =>
   else None
 }
 
+crossScalaVersions := Seq("2.12.9", "2.11.12", "2.13.1")
+
 scalaVersion := "2.11.12"
 
 libraryDependencies ++=Seq(

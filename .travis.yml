@@ -5,8 +5,6 @@ jdk: openjdk8
 matrix:
   include:
     - scala: 2.11.12
-    - scala: 2.12.9
-    - scala: 2.13.1
 
 env:
   global:
