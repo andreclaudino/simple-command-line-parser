@@ -47,7 +47,7 @@ object Application extends App {
 
 ## Instalation
 
-If you are build it, you should publish locally before use in any project. In `simple-command-line-parser` folder run:
+If you whith to build it, you should publish locally before use in any project. In `simple-command-line-parser` folder run:
 
 ```bash
 sbt publishLocal
